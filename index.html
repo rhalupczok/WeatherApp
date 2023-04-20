@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Weather</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body onload="gps()">
+        <header>
+            <h1>Weather APP</h1>
+            <div id="loc">
+                <button id="userLocation" class="btn">Write location</button>
+                <button id="gpsData" class="btn">USE GPS DATA</button>
+            </div>
+
+            <div id="userLocationWindow">
+                <form action="" id="city-form">
+                    <label for="city" class="label-form">Write city</label>
+                    <input
+                        name="text"
+                        wrap="soft"
+                        required
+                        id="city"
+                        placeholder="Write city here"
+                    />
+                    <button id="applyCityBtn" type="submit" class="btn">
+                        Apply
+                    </button>
+                </form>
+            </div>
+        </header>
+        <section id="currentWeather">
+            <div id="missingLocation">
+                <h1>Missing Location Data</h1>
+                <h3>Write Location or use gps data</h3>
+            </div>
+            <div id="currentHead">
+                <img src="" id="currentImg" />
+                <div>
+                    <p id="temp"></p>
+                    <p id="desc"></p>
+                </div>
+                <div id="locData">
+                    <span id="currentTime"></span>
+                    <a href="#" id="locationLink"></a>
+                    <p id="currentDay"></p>
+                </div>
+            </div>
+
+            <div id="currentAtributes">
+                <div>
+                    <p>Humidity</p>
+                    <p id="humidity"></p>
+                </div>
+                <div>
+                    <p>Pressure</p>
+                    <p id="pressure"></p>
+                </div>
+                <div>
+                    <p>Clouds</p>
+                    <p id="clouds"></p>
+                </div>
+                <div>
+                    <p>WindSpeed</p>
+                    <p id="windSpeed"></p>
+                </div>
+                <div>
+                    <p>SunRise</p>
+                    <p id="sunRise"></p>
+                </div>
+                <div>
+                    <p>SunSet</p>
+                    <p id="sunSet"></p>
+                </div>
+            </div>
+        </section>
+        <section id="nxtDaysWeather"></section>
+
+        <script src="code.js"></script>
+    </body>
+</html>
