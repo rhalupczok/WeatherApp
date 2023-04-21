@@ -2,6 +2,8 @@ let lat;
 let long;
 let cityName;
 const apiKey = "aec2be107d23157731e420673782f5f3";
+let nextDaysData = {};
+let currentData = {};
 
 const missingLocation = document.getElementById("missingLocation");
 const userLocationWindow = document.getElementById("userLocationWindow");
@@ -62,6 +64,7 @@ function missingLoc() {
 function getWeatherData(currentWeather, nextDaysWeather) {
     fetch(currentWeather).then(function (response) {
         response.json().then(function (data) {
+            currentData = data;
             data.cod != 200
                 ? error(data.message)
                 : updateCurrentWeatherData(data);
@@ -69,6 +72,7 @@ function getWeatherData(currentWeather, nextDaysWeather) {
     });
     fetch(nextDaysWeather).then(function (response) {
         response.json().then(function (data) {
+            nextDaysData = data;
             data.cod != 200
                 ? error(data.message)
                 : updateNextDaysWeatherData(data);
@@ -79,14 +83,17 @@ function getWeatherData(currentWeather, nextDaysWeather) {
 function updateCurrentWeatherData(data) {
     const temp = data.main.temp.toPrecision(2) + " C";
     const humidity = data.main.humidity + "%";
-    const pressure = data.main.pressure + " HPa";
+    const pressure = data.main.pressure + "HPa";
     const clouds = data.clouds.all + "%";
-    const wind = data.wind.speed + " km/h";
-    const sunRise = new Date(data.sys.sunrise * 1000);
-    const sunSet = new Date(data.sys.sunset * 1000);
+    const wind = data.wind.speed + "km/h";
+    const sunRise = new Date(
+        (data.sys.sunrise ? data.sys.sunrise : nextDaysData.city.sunrise) * 1000
+    );
+    const sunSet = new Date(
+        (data.sys.sunset ? data.sys.sunset : nextDaysData.city.sunset) * 1000
+    );
     const desc = data.weather[0].description;
     const currentDate = new Date(data.dt * 1000);
-    console.log(currentDate);
 
     document.getElementById("temp").innerHTML = temp;
     document.getElementById("humidity").innerHTML = humidity;
@@ -108,7 +115,7 @@ function updateCurrentWeatherData(data) {
     document.getElementById("currentImg").setAttribute("src", imgUrl);
 
     const locationLink = document.getElementById("locationLink");
-    locationLink.innerHTML = data.name;
+    locationLink.innerHTML = data.name ? data.name : nextDaysData.city.name;
     locationLink.href = `https://openstreetmap.org/#map=10/${lat}/${long}`;
 }
 
@@ -136,6 +143,7 @@ function updateNextDaysWeatherData(data) {
             "@2x.png";
         let singleDay = document.createElement("div");
         singleDay.classList.add("singleDay");
+        singleDay.id = i;
         singleDay.innerHTML = `<p>${dayName[currentDate.getDay()]}</br>${
             currentDate.getHours() + ":0" + currentDate.getMinutes()
         }</p><p>${desc}</><img src="http://openweathermap.org/img/wn/${
@@ -143,11 +151,41 @@ function updateNextDaysWeatherData(data) {
         }@2x.png"/><p>${temp}</p>`;
         nxtDaysWeather.appendChild(singleDay);
     }
-
-    let humidity = data.list[i].main.humidity + "%";
-    let pressure = data.list[i].main.pressure + " HPa";
-    let clouds = data.list[i].clouds.all + "%";
-    let wind = data.list[i].wind.speed + " km/h";
-    let sunRise = new Date(data.list[i].sys.sunrise * 1000);
-    let sunSet = new Date(data.list[i].sys.sunset * 1000);
 }
+
+function fillCurrentWeather(e) {
+    if (e.target.className === "singleDay") {
+        if (e.target.style.background != "red") {
+            updateCurrentWeatherData(nextDaysData.list[e.target.id]);
+            e.target.parentElement.childNodes.forEach((element) => {
+                element.style.background = "rgba(0, 0, 0, 0.5)";
+            });
+            ("rgba(0, 0, 0, 0.5)");
+            e.target.style.background = "red";
+        } else {
+            updateCurrentWeatherData(currentData);
+            e.target.style.background = "rgba(0, 0, 0, 0.5)";
+        }
+    }
+
+    if (e.target.parentElement.className === "singleDay") {
+        if (e.target.parentElement.style.background != "red") {
+            updateCurrentWeatherData(
+                nextDaysData.list[e.target.parentElement.id]
+            );
+            e.target.parentElement.parentElement.childNodes.forEach(
+                (element) => {
+                    element.style.background = "rgba(0, 0, 0, 0.5)";
+                }
+            );
+            e.target.parentElement.style.background = "red";
+        } else {
+            updateCurrentWeatherData(currentData);
+            e.target.parentElement.style.background = "rgba(0, 0, 0, 0.5)";
+        }
+    }
+}
+
+const nextDaysWeather = document
+    .getElementById("nxtDaysWeather")
+    .addEventListener("click", (e) => fillCurrentWeather(e));
