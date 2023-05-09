@@ -8,14 +8,14 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body onload="gps()">
+        <div id="closePopupBG" class="closePopup popup"></div>
         <header>
-            <h1>Weather APP</h1>
             <div id="loc">
                 <button id="userLocation" class="btn">Write location</button>
                 <button id="gpsData" class="btn">USE GPS DATA</button>
             </div>
-
-            <div id="userLocationWindow">
+            <h1>Weather APP</h1>
+            <div id="userLocationWindow" class="popup">
                 <form action="" id="city-form">
                     <label for="city" class="label-form">Write city</label>
                     <input
@@ -31,11 +31,9 @@
                 </form>
             </div>
         </header>
-        <section id="currentWeather">
-            <div id="missingLocation">
-                <h1>Missing Location Data</h1>
-                <h3>Write Location or use gps data</h3>
-            </div>
+        <main></main>
+        <section id="currentWeather" class="weatherBg">
+            <div id="missingLocation" class="popup"></div>
             <div id="currentHead">
                 <img src="" id="currentImg" />
                 <div>
@@ -43,12 +41,14 @@
                     <p id="desc"></p>
                 </div>
                 <div id="locData">
-                    <span id="currentTime"></span>
-                    <a href="#" id="locationLink"></a>
+                    <a href="" target="_blank" id="locationLink"></a>
+                    <p id="currentTime"></p>
                     <p id="currentDay"></p>
                 </div>
             </div>
-
+        </section>
+        <section id="details" class="weatherBg">
+            <h2>Details</h2>
             <div id="currentAtributes">
                 <div>
                     <p>Humidity</p>
@@ -76,8 +76,10 @@
                 </div>
             </div>
         </section>
-        <section id="nxtDaysWeather"></section>
-
+        <section class="weatherBg">
+            <h2>Upcoming</h2>
+            <div id="nxtDaysWeather"></div>
+        </section>
         <script src="code.js"></script>
     </body>
 </html>

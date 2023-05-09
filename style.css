@@ -3,12 +3,10 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
 }
 
 body {
-    background: linear-gradient(0deg, rgb(9, 94, 252), white);
+    background: linear-gradient(180deg, rgb(45, 111, 255), rgb(147, 203, 235));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,35 +18,54 @@ p {
     padding: 0;
 }
 
+h2 {
+    margin: 10px;
+}
+
 header h1 {
     text-align: center;
-    margin: 20px;
+    margin: 0;
     padding: 0;
 }
 
 #loc {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    /* position: absolute; */
+    top: 0px;
+    left: 0px;
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#closePopupBG {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgb(0, 0, 0, 0.75);
+    z-index: 98;
+    display: none;
 }
 
 #userLocationWindow {
     width: 200px;
-    background: rgb(50, 50, 199);
+    background: rgba(0, 0, 0, 0.75);
     position: absolute;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    letter-spacing: 0.1rem;
+    font-weight: 700;
     top: 100px;
     right: 100px;
     display: none;
-    z-index: 2;
+    z-index: 99;
 }
 
 .btn {
-    margin: 0.1rem;
+    margin: 0.5rem;
     color: #ffffff;
-    background: #001aff83;
-    border: 2px solid black;
+    background: rgb(0, 0, 0, 0.5);
+    border: 1px solid rgb(255, 255, 255);
     border-radius: 0.2rem;
     text-transform: uppercase;
     text-decoration: none;
@@ -59,38 +76,39 @@ header h1 {
 }
 
 .btn:hover {
-    color: #001aff;
+    color: #000000;
     background: #ffffff;
-    box-shadow: 0 0 5px 5px #001aff85;
+    box-shadow: 0 0 5px 5px rgb(0, 0, 0, 0.5);
 }
 
-#currentWeather {
+.weatherBg {
+    margin: 10px 0;
     width: 80vw;
     background: linear-gradient(
         to right top,
-        rgba(28, 47, 68, 0.5),
-        rgba(59, 125, 201, 0.25)
+        rgba(28, 47, 68, 0.25),
+        rgba(28, 47, 68, 0.25)
     );
     backdrop-filter: blur(8px);
     border-radius: 1rem;
     text-align: center;
-    margin: 0;
     padding: 0;
+}
+
+#currentWeather {
     position: relative;
 }
 
 #missingLocation {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     width: 80vw;
     height: 100%;
-    background: linear-gradient(
-        to right top,
-        rgba(59, 125, 201, 1),
-        rgba(59, 125, 201, 1)
-    );
+    background: rgb(0, 0, 0, 0.9);
+    color: white;
     border-radius: 1rem;
-    text-align: center;
     margin: 0;
     padding: 0;
     z-index: 1;
@@ -99,10 +117,13 @@ header h1 {
 #currentHead {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap-reverse;
 }
 
 #currentHead > * {
-    margin: 10px;
+    padding: 10px;
+    min-width: 100px;
 }
 
 #currentImg {
@@ -110,19 +131,15 @@ header h1 {
     width: 100px;
 }
 
-#locData {
-    margin-top: 25px;
-}
-
 #locationLink {
     font-size: 24px;
     font-weight: 700;
+    color: black;
 }
 
 #temp {
-    margin-top: 25px;
     font-weight: 700;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 #currentAtributes {
@@ -143,11 +160,7 @@ header h1 {
     border-radius: 5px;
     margin: 5px;
     position: relative;
-    background: linear-gradient(
-        0deg,
-        rgba(59, 125, 201, 0.5),
-        rgba(102, 163, 112, 0.568)
-    );
+    background: rgba(0, 0, 0, 0.2);
 }
 
 #currentAtributes > div > p:last-child {
@@ -157,7 +170,7 @@ header h1 {
 }
 
 #currentAtributes > div > p:first-child {
-    font-weight: 700;
+    font-weight: 400;
     position: absolute;
     bottom: 0;
     color: white;
@@ -169,22 +182,10 @@ header h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 80vw;
-    /* background: linear-gradient(
-        to right top,
-        rgba(59, 125, 201, 0.5),
-        rgba(59, 125, 201, 0.25)
-    ); */
-    backdrop-filter: blur(8px);
-    border-radius: 1rem;
-    text-align: center;
-    margin: 0;
-    margin-top: 2rem;
-    padding: 0;
     overflow-y: scroll;
 }
 
-.singleDay {
+.singleHour {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 1rem;
     margin: 0.2rem;
@@ -197,14 +198,18 @@ header h1 {
     align-items: center;
 }
 
-.singleDay img {
+.singleHour:hover {
+    cursor: pointer;
+}
+
+.singleHour img {
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
 }
 
-.singleDay p {
+.singleHour p {
     color: white;
     font-size: 1rem;
     text-shadow: 2px 2px 5px black;
